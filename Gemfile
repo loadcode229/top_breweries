@@ -7,3 +7,4 @@ gem "rake", "~> 12.0"
 gem "pry"
 gem "nokogiri", '1.10.4'
 gem "httparty"
+gem "open-uri"
