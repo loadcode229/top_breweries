@@ -1,7 +1,8 @@
 class TopBreweries::Scraper
 
+    BASE_URL = "https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america"
     def get_page
-        Nokogiri::HTML(open("https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america"))
+        Nokogiri::HTML(open(BASE_URL))
     end
 
     def scrape_breweries_index

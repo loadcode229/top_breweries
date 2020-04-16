@@ -48,18 +48,12 @@ class TopBreweries::CLI
         puts "Location:            #{brewery.state}"
         puts "Contact"
         puts "Phone:"
-        puts "Website: "
-
+        puts "Website:             #{brewery.website_url}"
+        puts "---------- Breweries #{num} - #{num+9} ----------"
         puts ""
-        puts "---------- Description ----------"
-        puts ""
-        puts "#{brewery.description}"
     end
 
     def print_breweries(num)
-        puts ""
-        puts "---------- Breweries #{num} - #{num+9} ----------"
-        puts ""
         TopBreweries::Breweries.all[num-1, 10].each.with_index(num) do |brewery, index|
             puts "#{index}. #{brewery.name} - #{brewery.state}"
         end

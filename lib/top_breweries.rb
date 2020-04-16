@@ -5,6 +5,7 @@ require_relative "./scraper.rb"
 require "httparty"
 require "pry"
 require "nokogiri"
+require "open-uri"
 
 module TopBreweries
   class Error < StandardError; end
