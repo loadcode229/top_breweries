@@ -1,21 +1,26 @@
-require_relative "../lib/scraper.rb"
-require_relative "../lib/breweries.rb"
-require 'nokogiri'
-require 'colorize'
+
 
 class TopBreweries::CLI
 
-    BASE_PATH = "https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-americaS"
+    BASE_PATH = "https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america/"
     
     def start
+        introduction
+
         make_breweries
+        puts "HELLO WORLD"
         add_attributes_to_breweries
         display_breweries
-        puts "HELLO WORLD"
+    end
+
+    def introduction
+        puts "\n\n\n"
+        puts                "These are the Top Breweries in each state!"
+        puts "\n\n\n"
     end
 
     def make_breweries
-        breweries_array = TopBreweries::Scraper.scrape_index_page(BASE_PATH + 'index.html')
+        breweries_array = TopBreweries::Scraper.scrape_breweries_index(BASE_PATH + 'index.html')
         TopBreweries::Brewery.create_from_collection(breweries_array)
     end
 

@@ -1,28 +1,17 @@
-require 'open-uri'
-require 'pry'
-require 'nokogiri'
-
 class TopBreweries::Scraper
 
-    def self.scrape_index_page(index_url)
+    def self.get_page
+        Nokogiri::HTML(open("https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america"))
+    end
 
-        html = Nokogiri::HTML(open(index_url))
-        breweries = []
+    def self.scrape_breweries_index
+        self.get_page.css("div[class='body-text__content']")
+    end
 
-        html.css("div.body-text__content").each do |brewery|
-            state = brewery.css("h2.body-text__paragraph-header font--h2").text
-            name = brewery.css("a").text
-            brewery_link = brewery.css("a").attribute("href").value
-            city = ("em")
-            description = brewery.css(".p body-text__paragraph-text font--body has--spacing")
-
-            brewery_info = {:state => state,
-                        :name => name,
-                        :brewery_link => brewery_link,
-                        :city => city,
-                        :description => description}
-            breweries << brewery_info
+    def self.make_breweries
+        scrape_breweries_index.each do |r|
+            TopBreweries::Breweries.new_from_index_page(r)
         end
-        breweries
-    end    
+    end
+
 end

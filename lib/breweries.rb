@@ -1,4 +1,24 @@
+#def scrape_top_brewery_page
 
+  #  html = Nokogiri::HTML(open(index_url))
+  #  breweries = []
+
+   # html.css("div.body-text__content").each do |brewery|
+   #     state = brewery.css("h2.body-text__paragraph-header font--h2")
+   #     name = brewery.css("a").text
+   #     brewery_link = brewery.css("a").attribute("href").value
+   #     city = brewery.css("em").first.text
+   #     description = brewery.css(".p body-text__paragraph-text font--body has--spacing")
+
+  #      brewery_info = {:state => state,
+  #                  :name => name,
+ #                   :brewery_link => brewery_link,
+ #                   :city => city,
+#                    :description => description}
+ #       breweries << brewery_info
+#    end
+#    breweries
+#end    
 
 class TopBreweries::Breweries
     attr_accessor :state, :name, :brewery_link, :city, :description, :twitter, :facebook, :instagram
@@ -20,7 +40,7 @@ class TopBreweries::Breweries
         end
     end
 
-    def add_student_attributes(attributes_hash)
+    def add_brewery_attributes(attributes_hash)
         self.send("twitter=", attributes_hash[:twitter])
         self.send("instagram=", attributes_hash[:instagram])
         self.send("facebook=", attributes_hash[:facebook])
