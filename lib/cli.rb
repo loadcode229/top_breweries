@@ -2,39 +2,66 @@
 
 class TopBreweries::CLI
 
-    BASE_PATH = "https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america/"
     
-    def start
-        introduction
-
-        make_breweries
+    def call
+        TopBreweries::Scraper.new.make_breweries
+        puts "Welcome to the Top Breweries in each State!"
+        start
         puts "HELLO WORLD"
-        add_attributes_to_breweries
-        display_breweries
     end
 
-    def introduction
-        puts "\n\n\n"
-        puts                "These are the Top Breweries in each state!"
-        puts "\n\n\n"
-    end
+    def start
+        puts ""
+        puts "What number of restaurants would you like to see? 1-10, 11-20, 21-30, 31-40, 41-50?"
+        input = gets.strip.to_i
 
-    def make_breweries
-        breweries_array = TopBreweries::Scraper.scrape_breweries_index(BASE_PATH + 'index.html')
-        TopBreweries::Brewery.create_from_collection(breweries_array)
-    end
+        print_breweries(input)
 
-    def add_attributes_to_breweries
-        TopBreweries::Brewery.all.each do |brewery|
-            attributes = TopBreweries::Scraper.scrape_brewery_page(BASE_PATH + brewery.brewery_url)
-            brewery.add_attributes_to_breweries(attributes)
+        puts ""
+        puts "What restaurant would you like more information on?"
+        input = gets.strip
+
+        print_brewery(brewery)
+
+        puts ""
+        puts "Would you like to see another brewery? Enter Y or N"
+
+        input = gets.strip.downcase
+        if input =="y"
+            start
+        elsif input == "n"
+            puts ""
+            puts "Thanks! Have an awesome day!"
+            exit
+        else
+            puts ""
+            puts "I don't understand that command."
+            start
         end
     end
 
-    def display_breweries
-        TopBreweries::Brewery.all.each do |brewery|
-            puts "#{brewery.state.upcase}".colorize(:red)
+    def print_brewery(brewery)
+        puts ""
+        puts "---------- #{brewery.name} - #{brewery.state} ----------"
+        puts ""
+        puts "#{brewery.about_us}"
+        puts "Location:            #{brewery.state}"
+        puts "Contact"
+        puts "Phone:"
+        puts "Website: "
 
+        puts ""
+        puts "---------- Description ----------"
+        puts ""
+        puts "#{brewery.description}"
+    end
+
+    def print_breweries(num)
+        puts ""
+        puts "---------- Breweries #{num} - #{num+9} ----------"
+        puts ""
+        TopBreweries::Breweries.all[num-1, 10].each.with_index(num) do |brewery, index|
+            puts "#{index}. #{brewery.name} - #{brewery.state}"
         end
     end
 end
