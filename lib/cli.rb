@@ -17,7 +17,7 @@ class TopBreweries::CLI
         print_breweries(input)
 
         puts ""
-        puts "What restaurant would you like more information on?"
+        puts "What brewery would you like more information on?"
         input = gets.strip
 
         brewery = TopBreweries::Breweries.find(input.to_i)
@@ -28,7 +28,7 @@ class TopBreweries::CLI
         puts "Would you like to see another brewery? Enter Y or N"
 
         input = gets.strip.downcase
-        if input =="y"
+        if input == "y"
             start
         elsif input == "n"
             puts ""
@@ -45,20 +45,14 @@ class TopBreweries::CLI
         puts ""
         puts "-----------  #{brewery.name} -----------"
         puts ""
-        puts "Location:    #{brewery.location}"
-        puts "Contact:     #{brewery.contact}"
-        puts "Phone:       #{brewery.phone}"
-        puts "Website:     #{brewery.website_url}"
-        puts ""
-        puts "----------- Description ------------"
-        puts "Description: #{brewery.description}"
+        puts "State:    #{brewery.state}"
     end
 
-    def print_breweries(num)
+    def print_breweries(from_number)
         puts ""
-        puts "---------- Breweries #{num} - #{num+9} ----------"
+        puts "---------- Breweries #{from_number} - #{from_number+9} ----------"
         puts ""
-        TopBreweries::Breweries.all[num-1, 10].each.with_index(num) do |brewery, index|
+        TopBreweries::Breweries.all[from_number-1, 10].each.with_index(from_num) do |brewery, index|
             puts "#{index}. #{brewery.name} - #{brewery.state}"
         end
     end

@@ -21,30 +21,38 @@
 #end    
 
 class TopBreweries::Breweries
-    attr_accessor :name, :city, :state, :brewery_link, :description, :twitter, :facebook, :instagram, :location
+    attr_accessor :name, :url, :position, :state
 
     @@all = []
 
-    def initialize(name = nil, brewery_link = nil, city = nil, state = nil, location = nil)
-        @name, @brewery_link, @city, @state, @location = name, brewery_link, city, state, location
+    def initialize(name = nil, url = nil, position = nil, state = nil)
+        @name = name
+        @url = url
+        @position = position
+        @state = state
         @@all << self
     end
 
     def self.new_from_index_page(r)
         self.new(
-            r.css("a").text,
+            r.css("h2").text,
             "https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america#{r.attribute("href").text}",
-            r.css("h2.").text
+            r.css("em").text
         )
     end
     
-    def location
-        location = "#{city}, #{state}"
-    end
 
     def description
+        @description ||= doc.css("div.body-text__content").css("p").text
     end
 
+    def doc
+        doc ||= Nokogiri::HTML(open(self.url))
+    end
+
+    def self.find(id)
+        self.all[id-1]
+    end
 
     def self.all
         @@all
