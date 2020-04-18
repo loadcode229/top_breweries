@@ -7,7 +7,6 @@ class TopBreweries::CLI
         TopBreweries::Scraper.new.make_breweries
         puts "Welcome to the Top Breweries in each State!"
         start
-        puts "HELLO WORLD"
     end
 
     def start
@@ -20,6 +19,8 @@ class TopBreweries::CLI
         puts ""
         puts "What restaurant would you like more information on?"
         input = gets.strip
+
+        brewery = TopBreweries::Breweries.find(input.to_i)
 
         print_brewery(brewery)
 
@@ -42,18 +43,21 @@ class TopBreweries::CLI
 
     def print_brewery(brewery)
         puts ""
-        puts "---------- #{brewery.name} - #{brewery.state} ----------"
+        puts "-----------  #{brewery.name} -----------"
         puts ""
-        puts "#{brewery.about_us}"
-        puts "Location:            #{brewery.state}"
-        puts "Contact"
-        puts "Phone:"
-        puts "Website:             #{brewery.website_url}"
-        puts "---------- Breweries #{num} - #{num+9} ----------"
+        puts "Location:    #{brewery.location}"
+        puts "Contact:     #{brewery.contact}"
+        puts "Phone:       #{brewery.phone}"
+        puts "Website:     #{brewery.website_url}"
         puts ""
+        puts "----------- Description ------------"
+        puts "Description: #{brewery.description}"
     end
 
     def print_breweries(num)
+        puts ""
+        puts "---------- Breweries #{num} - #{num+9} ----------"
+        puts ""
         TopBreweries::Breweries.all[num-1, 10].each.with_index(num) do |brewery, index|
             puts "#{index}. #{brewery.name} - #{brewery.state}"
         end

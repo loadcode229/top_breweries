@@ -21,12 +21,12 @@
 #end    
 
 class TopBreweries::Breweries
-    attr_accessor :name, :city, :state, :brewery_link, :description, :twitter, :facebook, :instagram :location
+    attr_accessor :name, :city, :state, :brewery_link, :description, :twitter, :facebook, :instagram, :location
 
     @@all = []
 
-    def initialize(name = nil, brewery_link = nil, city = nil, state = nil, location)
-        @name, @brewery_link, @city, @state @location = name, brewery_link, city, state, location
+    def initialize(name = nil, brewery_link = nil, city = nil, state = nil, location = nil)
+        @name, @brewery_link, @city, @state, @location = name, brewery_link, city, state, location
         @@all << self
     end
 
@@ -39,11 +39,10 @@ class TopBreweries::Breweries
     end
     
     def location
-        @location = "#{@city}, #{@state}"
+        location = "#{city}, #{state}"
     end
 
     def description
-        p.text
     end
 
 
