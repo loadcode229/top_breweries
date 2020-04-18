@@ -21,30 +21,31 @@
 #end    
 
 class TopBreweries::Breweries
-    attr_accessor :state, :name, :brewery_link, :city, :description, :twitter, :facebook, :instagram
+    attr_accessor :name, :city, :state, :brewery_link, :description, :twitter, :facebook, :instagram :location
 
     @@all = []
 
-    def initialize(brewery_hash)
-        self.send("state=", brewery_hash[:state])
-        self.send("name=", brewery_hash[:name])
-        self.send("brewery_link=", brewery_hash[:brewery_link])
-        self.send("city=", brewery_hash[:city])
-        self.send("description=", brewery_hash[:description])
+    def initialize(name = nil, brewery_link = nil, city = nil, state = nil, location)
+        @name, @brewery_link, @city, @state @location = name, brewery_link, city, state, location
         @@all << self
     end
 
-    def self.create_from_collections(breweries_array)
-        breweries_array.each do |brewery_hash|
-            TopBreweries::Brewery.new(brewery_hash)
-        end
+    def self.new_from_index_page(r)
+        self.new(
+            r.css("a").text,
+            "https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america#{r.attribute("href").text}",
+            r.css("h2.").text
+        )
+    end
+    
+    def location
+        @location = "#{@city}, #{@state}"
     end
 
-    def add_brewery_attributes(attributes_hash)
-        self.send("twitter=", attributes_hash[:twitter])
-        self.send("instagram=", attributes_hash[:instagram])
-        self.send("facebook=", attributes_hash[:facebook])
+    def description
+        p.text
     end
+
 
     def self.all
         @@all
