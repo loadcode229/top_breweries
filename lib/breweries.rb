@@ -5,7 +5,7 @@ class TopBreweries::Breweries
 
     def self.new_from_index_page(r)
         self.new(
-            r.css("h2.body-text__paragraph-header.font--h2").text,
+            r.css("h2.body-text__paragraph-header.font--h2"),
             r.css("strong a href").text,
             r.css("em").text,
             r.css("p.body-text__paragraph-text.font--body.has-spacing").text
@@ -20,8 +20,8 @@ class TopBreweries::Breweries
         @@all << self
     end
 
-    def self.find(brewery)
-        self.all[brewery-1]
+    def doc
+        doc ||= Nokogiri::HTML(open(self.url))
     end
 
     def self.all
