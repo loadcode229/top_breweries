@@ -1,6 +1,6 @@
 class TopBreweries::Scraper
 
-    def get_brewery_info
+    def self.get_brewery_info
         parsed_page = Nokogiri::HTML(open("https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america/"))
         # doc = parsed_page.css("p")
         # breweries_arr = []
@@ -14,10 +14,16 @@ class TopBreweries::Scraper
 
         states = parsed_page.css("h2")
         brewery_info = parsed_page.css("h2+p")
-        brewery_info_hash = brewery_info.map do |p|
-            links = p.css("a").attr("href")
+        b_arr = []
+        brewery_info.map do |p|
+            brewery_info_hash = {
+            :brewery_links => p.css("a").attr("href").text,
+            :brewery_name => p.css("a").first.text,
+            :city => p.css("em").first.text,
+            :description => p.search('#text')}
+        b_arr << brewery_info_hash
         end
-        binding.pry
+        
     end
 
 
