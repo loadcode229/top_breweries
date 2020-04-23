@@ -1,34 +1,27 @@
 class TopBreweries::Scraper
 
     def self.get_brewery_info
-        parsed_page = Nokogiri::HTML(open("https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america/"))
-        # doc = parsed_page.css("p")
-        # breweries_arr = []
-        # doc.each do |brewery|
-        #     brewery_hash = {
-        #         :brewery_url => brewery.css("a").attr("href").to_s,
-        #         :brewery_name => brewery.css("strong").text}
-        # breweries_arr << brewery_hash
-        # end
-        # breweries_arr
-
-        states = parsed_page.css("h2")
-        brewery_info = parsed_page.css("h2+p")
-        b_arr = []
-        brewery_info.map do |p|
-            brewery_info_hash = {
-            :brewery_links => p.css("a").attr("href").text,
-            :brewery_name => p.css("a").first.text,
-            :city => p.css("em").first.text,
-            :description => p.search('#text')}
-        b_arr << brewery_info_hash
+        html = Nokogiri::HTML(open("https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america/"))
+        breweries = []
+        parsed_page = html.css("h2+p")
+        parsed_page.each do |brewery|
+            state = html.css("h2").first.text
+            b_links = parsed_page.css("a").attr("href").text
+            b_name = parsed_page.css("a").first.text
+            city = parsed_page.css("em").first.text
+            description = parsed_page.css("p").first.text.split("\n").pop
+            b_info = {:state => state,
+                    :b_links => b_links,
+                    :b_name => b_name,
+                    :city => city,
+                    :description => description}
+            breweries << b_info
         end
-        
+        breweries
+        binding.pry
     end
-
-
 end
-
+    
 
 
 #doc.css("a").attr("href").value

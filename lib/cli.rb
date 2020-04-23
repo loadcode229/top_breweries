@@ -1,7 +1,4 @@
-
-
 class TopBreweries::CLI
-
     
     def call
         introduction
@@ -30,54 +27,26 @@ class TopBreweries::CLI
         end
     end
 
-    def start
-        puts ""
-        puts "What number of r would you like to see? 1-10, 11-20, 21-30, 31-40, 41-50?"
-        input = gets.strip.to_i
-
-        print_breweries
-
-        puts ""
-        puts "What brewery would you like more information on?"
-        input = gets.strip
-
-        brewery = TopBreweries::Breweries.find(input.to_i)
-
-        print_brewery(brewery)
-
-        puts ""
-        puts "Would you like to see another brewery? Enter Y or N"
-
+    def get_brewery_choice
         input = gets.strip.downcase
-        if input == "y"
-            start
-        elsif input == "n"
-            puts ""
-            puts "Thanks! Have an awesome day!"
-            exit
-        else
-            puts ""
-            puts "I don't understand that command."
-            start
+        return input if input == "exit"
+        if !valid?(input)
+            puts "That doesn't make sense"
+            return "invalid"
         end
+        return input.to_i - 1
     end
 
-    def print_brewery(brewery)
-        puts ""
-        puts "-----------  #{brewery.name} -----------"
-        puts ""
-        puts "State:    #{brewery.state}"
-        puts "City:     #{brewery.city}"
-        puts "Description #{brewery.description}"
+    def display_single_breweries(i)
+        b = TopBreweries::Breweries.all[i]
+        TopBreweries::Scraper.get_brewery_info(b) if !b.full?
+        puts b.full_details
+        puts "Press any key to continue:"
+        gets
     end
 
-    def print_breweries(from_number)
-        puts ""
-        puts "---------- Breweries #{from_number} - #{from_number+49} ----------"
-        puts ""
-        TopBreweries::Breweries.all[from_number-1, 50].each.with_index(from_number) do |brewery, index|
-            puts "#{index}. #{brewery.name} - #{brewery.state}"
-        end
+    def valid?(i)
+        i.to_i.between?(1, TopBreweries::Breweries.all.length)
     end
 
     def menu
