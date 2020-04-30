@@ -22,7 +22,7 @@ class TopBreweries::CLI
 
         puts ""
         puts "What brewery would you like more information on?"
-        input = gets.strip.to_i
+        input = gets.strip
 
         brewery = TopBreweries::Breweries.find(input.to_i)
 
@@ -52,10 +52,9 @@ class TopBreweries::CLI
 
     def display_brewery(brewery)
         puts ""
-        puts "---------- #{brewery.b_name} ----------" 
+        puts "---------- #{brewery.b_name} ----------"
         puts ""
-        binding.pry
-        puts "Locatation: #{brewery.state},#{brewery.city}"
+        puts "Location: #{brewery.city}, #{brewery.state}"
         puts "Website: #{brewery.b_links}"
         puts ""
         puts "---------- Description ----------"

@@ -29,7 +29,6 @@ class TopBreweries::Scraper
         #text_area = des.split("\n")[-2]
         #if !text_area
         des.gsub(/([^\sA-Z])([A-Z])/, '\1'+"\n"+'\2').split("\n")[1]
-
         #text_area.gsub(/(.*)([A-Z])/, '\2')
     end
 end
