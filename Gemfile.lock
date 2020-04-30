@@ -29,7 +29,7 @@ PLATFORMS
 
 DEPENDENCIES
   httparty
-  nokogiri (= 1.10.4)
+  nokogiri (= 1.10.8)
   pry
   rake (~> 12.0)
   rubysl-open-uri (= 2.0.0)
