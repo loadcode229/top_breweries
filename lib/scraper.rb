@@ -32,6 +32,11 @@ class TopBreweries::Scraper
 
         #text_area.gsub(/(.*)([A-Z])/, '\2')
     end
+
+    def make_breweries
+        breweries_arr = TopBreweries::Scraper.get_brewery_info
+        TopBreweries::Breweries.create_from_collection(breweries_arr)
+    end
 end
     
 
