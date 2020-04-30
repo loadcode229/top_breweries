@@ -31,13 +31,13 @@ class TopBreweries::CLI
         input = gets.strip.downcase
         return input if input == "exit"
         if !valid?(input)
-            puts "That doesn't make sense"
+            puts "That command doesn't make sense."
             return "invalid"
         end
         return input.to_i - 1
     end
 
-    def display_single_breweries(i)
+    def display_single_brewery(i)
         b = TopBreweries::Breweries.all[i]
         TopBreweries::Scraper.get_brewery_info(b) if !b.full?
         puts b.full_details
@@ -61,6 +61,6 @@ class TopBreweries::CLI
     end
 
     def display_instructions
-        puts "Please choose a brewery by number of type 'exit' to exit the program."
+        puts "Please choose a brewery by number or type 'exit' to exit the program."
     end
 end

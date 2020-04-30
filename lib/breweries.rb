@@ -1,16 +1,13 @@
 class TopBreweries::Breweries
 
 
-    attr_accessor :states, :brewery_name, :city, :description, :brewery_links
+    attr_accessor :state, :b_name, :city, :description, :b_links
 
     @@all = []
 
-    def initialize(brewery_hash)
-        self.send("brewery_name=", brewery_hash[:brewery_name])
-        self.send("brewery_links=", brewery_hash[:brewery_links])
-        self.send("city=", brewery_hash[:city])
-        self.send("states=", brewery_hash[:states])
-        self.send("description=", brewery_hash[:description])
+    def initialize(b_name, b_links)
+        @b_name, @b_links = b_name, b_links
+        @state, @city, @description = nil, nil, nil
         @@all << self
     end
 

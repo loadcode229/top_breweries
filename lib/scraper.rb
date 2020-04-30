@@ -3,14 +3,18 @@ class TopBreweries::Scraper
     def self.get_brewery_info
         html = Nokogiri::HTML(open("https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america/"))
         breweries = []
+        states = html.css('h2').map(&:text)
         parsed_page = html.css("h2+p")
-        parsed_page.each do |brewery|
-            state = html.css("h2").first.text
-            b_links = parsed_page.css("a").attr("href").text
-            b_name = parsed_page.css("a").first.text
-            city = parsed_page.css("em").first.text
-            description = parsed_page.css("p").first.text.split("\n").pop
-            b_info = {:state => state,
+        #Zipper pattern is BAD
+        parsed_page.each.with_index do |brewery, i|
+            b_links = brewery.css("a").attr("href").text
+            b_name = brewery.css("a").first.text
+            cityem = brewery.css("em:nth-child(3)").first
+            
+            description_unaltered = brewery.text.split("--").first
+            city =  cityem ? cityem.text : find_state(description_unaltered)
+            description = description_unaltered.split("\n").last
+            b_info = {:state => states[i],
                     :b_links => b_links,
                     :b_name => b_name,
                     :city => city,
@@ -18,7 +22,15 @@ class TopBreweries::Scraper
             breweries << b_info
         end
         breweries
-        binding.pry
+    end
+
+    def self.find_state(des)
+        
+        #text_area = des.split("\n")[-2]
+        #if !text_area
+        des.gsub(/([^\sA-Z])([A-Z])/, '\1'+"\n"+'\2').split("\n")[1]
+
+        #text_area.gsub(/(.*)([A-Z])/, '\2')
     end
 end
     
