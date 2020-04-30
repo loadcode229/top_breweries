@@ -1,9 +1,9 @@
 class TopBreweries::CLI
     
     def call
+        make_breweries
         introduction
-        get_brewery_data
-        brew_loop
+        start
     end
 
     def introduction
@@ -13,54 +13,38 @@ class TopBreweries::CLI
         puts "\n\n\n"
     end
 
-    def get_brewery_data
-        TopBreweries::Scraper.get_brewery_info
-    end
-
-    def brew_loop
-        loop do
-            menu
-            input = get_brewery_choice
-            break if input == "exit"
-            next if input == "invalid"
-            display_single_brewery(input)
-        end
-    end
-
-    def get_brewery_choice
-        input = gets.strip.downcase
-        return input if input == "exit"
-        if !valid?(input)
-            puts "That command doesn't make sense."
-            return "invalid"
-        end
-        return input.to_i - 1
-    end
-
-    def display_single_brewery(i)
-        b = TopBreweries::Breweries.all[i]
-        TopBreweries::Scraper.get_brewery_info(b) if !b.full?
-        puts b.full_details
-        puts "Press any key to continue:"
-        gets
-    end
-
-    def valid?(i)
-        i.to_i.between?(1, TopBreweries::Breweries.all.length)
-    end
-
-    def menu
+    def start
+        puts ""
         display_breweries
-        display_instructions
+        puts ""
+        puts "What brewery would you like more information on?"
     end
 
-    def display_breweries
-        TopBreweries::Breweries.all.each.with_index do |p, i|
-            puts "#{i+1} #{p}"
+    def make_breweries
+        breweries_arr = TopBreweries::Scraper.get_brewery_info
+        TopBreweries::Breweries.create_from_collection(breweries_arr)
+    end
+
+    def display_brewery(brewery)
+        puts ""
+        puts "---------- #{brewery.b_name} - #{restaurant.state},#{brewery.city}" 
+        puts ""
+        puts "---------- Description ----------"
+        puts ""
+        puts "#{brewery.description}"
+        puts ""
+        puts "---------- Website ----------"
+        puts ""
+        puts "#{brewery.b_links}"
+        puts ""
+    end
+
+    def display_breweries(from_num)
+        puts ""
+        puts "---------- Breweries #{from_num} - #{from_num+49} ----------"
+        puts ""
+        TopBreweries::Breweries.all[from_num-1,50].each.with_index(from_num) do |brewery, index|
+            puts "#{index}. #{brewery.b_name}"
         end
-    end
-
-    def display_instructions
-        puts "Please choose a brewery by number or type 'exit' to exit the program."
     end
 end

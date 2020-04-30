@@ -1,12 +1,12 @@
 class TopBreweries::Scraper
 
     def self.get_brewery_info
-        html = Nokogiri::HTML(open("https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america/"))
-        breweries = []
-        states = html.css('h2').map(&:text)
-        parsed_page = html.css("h2+p")
-        #Zipper pattern is BAD
-        parsed_page.each.with_index do |brewery, i|
+        html = Nokogiri::HTML(open("https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america/")) #opens url and reads all HTML
+        breweries = []  #empty breweries array
+        states = html.css('h2').map(&:text) #variable states gets all 'h2' selectors in 'html' and gets all text within.
+        parsed_page = html.css("h2+p")  #parsed_page gets all within 'h2 and p' selectors
+        #Zipper pattern is BAD however..
+        parsed_page.each.with_index do |brewery, i|   #takes parsed_page & iterates through each element(brewery) within an index(i).
             b_links = brewery.css("a").attr("href").text
             b_name = brewery.css("a").first.text
             cityem = brewery.css("em:nth-child(3)").first
