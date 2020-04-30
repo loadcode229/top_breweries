@@ -1,9 +1,16 @@
 class TopBreweries::CLI
     
     def call
-        TopBreweries::Scraper.new.make_breweries
-        puts "Welcome to the Top Breweries in each State!"
+        make_breweries
+        introduction
         start
+    end
+
+    def introduction
+        puts ""
+        puts "Welcome to the Top Breweries in each State!"
+        sleep(2)
+        puts ""
     end
 
     def start
@@ -38,10 +45,16 @@ class TopBreweries::CLI
         end
     end
 
+    def make_breweries
+        breweries_arr = TopBreweries::Scraper.get_brewery_info
+        TopBreweries::Breweries.create_from_collection(breweries_arr)
+    end
+
     def display_brewery(brewery)
         puts ""
         puts "---------- #{brewery.b_name} ----------" 
         puts ""
+        binding.pry
         puts "Locatation: #{brewery.state},#{brewery.city}"
         puts "Website: #{brewery.b_links}"
         puts ""
@@ -53,9 +66,9 @@ class TopBreweries::CLI
 
     def display_breweries(from_num)
         puts ""
-        puts "---------- Breweries #{from_num} - #{from_num+49} ----------"
+        puts "---------- Breweries #{from_num} - #{from_num+9} ----------"
         puts ""
-        TopBreweries::Breweries.all[from_num-1,50].each.with_index(from_num) do |brewery, index|
+        TopBreweries::Breweries.all[from_num-1,10].each.with_index(from_num) do |brewery, index|
             puts "#{index}. #{brewery.b_name}"
         end
     end

@@ -18,6 +18,10 @@ class TopBreweries::Breweries
             TopBreweries::Breweries.new(brewery_hash)
         end
     end
+
+    def self.find(id)
+        self.all[id-1]
+    end
     
     def self.all
         @@all
