@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.executables << 'top-breweries'
 
   s.add_development_dependency "bundler", "~> 1.17.2"
-  s.add_development_dependency "rake", "~> 3.9.0"
+  s.add_development_dependency "rake", "~> 12.3.3"
   s.add_development_dependency "rspec", ">= 0"
   s.add_development_dependency "nokogiri", ">= 0"
   s.add_development_dependency "pry", ">= 0"
