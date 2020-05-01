@@ -10,8 +10,8 @@ class TopBreweries::Scraper
             b_links = brewery.css("a").attr("href").text
             b_name = brewery.css("a").first.text
             cityem = brewery.css("em:nth-child(3)").first
-            
-            description_unaltered = brewery.text.split("--").first
+
+            description_unaltered = brewery.text.split('--')[0...-1].join("--")
             city =  cityem ? cityem.text : find_state(description_unaltered)
             description = description_unaltered.split("\n").last
             b_info = {:state => states[i],

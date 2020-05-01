@@ -16,7 +16,7 @@ class TopBreweries::CLI
     def start
         puts ""
         puts "What number breweries would you like to see? 1-10, 11-20, 21-30, 31-40, or 41-50?"
-        input = gets.strip.to_i
+        input = choose_range
 
         display_breweries(input)
 
@@ -65,10 +65,26 @@ class TopBreweries::CLI
 
     def display_breweries(from_num)
         puts ""
-        puts "---------- Breweries #{from_num} - #{from_num+9} ----------"
+        puts "---------- Breweries #{from_num} - #{from_num+10} ----------"
         puts ""
-        TopBreweries::Breweries.all[from_num-1,10].each.with_index(from_num) do |brewery, index|
+        TopBreweries::Breweries.all[from_num-1,11].each.with_index(from_num) do |brewery, index|
             puts "#{index}. #{brewery.b_name}"
         end
+    end
+
+    def choose_range
+        choices = ["1-10", "11-20", "21-30", "31-40", "41-50"]
+        loop do 
+
+            choices.each.with_index do |c, i|
+                puts "#{i+1}. #{c}"
+            end
+            choice = gets.strip
+            if choice.to_i.between?(1, choices.length)
+                return (choice.to_i - 1) * 10
+            end
+            puts "That is not a valid choice"
+        end
+
     end
 end
