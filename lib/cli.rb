@@ -65,9 +65,9 @@ class TopBreweries::CLI
 
     def display_breweries(from_num)
         puts ""
-        puts "---------- Breweries #{from_num} - #{from_num+10} ----------"
+        puts "---------- Breweries #{from_num+1} - #{from_num+10} ----------"
         puts ""
-        TopBreweries::Breweries.all[from_num-1,11].each.with_index(from_num) do |brewery, index|
+        TopBreweries::Breweries.all[from_num+0,10].each.with_index(from_num+1) do |brewery, index|
             puts "#{index}. #{brewery.b_name}"
         end
     end
@@ -83,7 +83,7 @@ class TopBreweries::CLI
             if choice.to_i.between?(1, choices.length)
                 return (choice.to_i - 1) * 10
             end
-            puts "That is not a valid choice"
+            puts "That is not a valid choice. Please try again."
         end
 
     end
