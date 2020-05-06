@@ -16,25 +16,45 @@ class TopBreweries::CLI
     def start
         puts ""
         puts "What number breweries would you like to see? 1-10, 11-20, 21-30, 31-40, or 41-50?"
-        input = choose_range
+        list_input = choose_range
 
-        display_breweries(input)
+        display_breweries(list_input)
 
         puts ""
         puts "What brewery would you like more information on?"
-        input = gets.strip
+        choice_input = gets.strip.to_i
+        
+        brewery = TopBreweries::Breweries.find(choice_input.to_i)
+        until choice_input <= 50 && choice_input > 0
+            case choice_input
+            when choice_input.to_i[1..10]
+                display_brewery(brewery)[1..10]
+            when 11..20
+                display_brewery(brewery)
+            when 21..30
+                display_brewery(brewery)
+            when 31..40
+                display_brewery(brewery)
+            when 41..50
+                display_brewery(brewery)
+            else
+                puts "This input is invalid."
+                puts "What brewery would you like more information on?"
+                choice_input = gets.strip.to_i
+            end 
+        end
+        #brewery = TopBreweries::Breweries.find(choice_input.to_i)
 
-        brewery = TopBreweries::Breweries.find(input.to_i)
-
-        display_brewery(brewery)
-
+        #display_brewery(brewery)
+        
+        
         puts ""
         puts "Would you like to see another brewery? Enter Y or N"
 
-        input = gets.strip.downcase
-        if input == "y"
+        list_input = gets.strip.downcase
+        if list_input == "y"
             start
-        elsif input == "n"
+        elsif list_input == "n"
             puts ""
             puts "Thank you! Have an awesome day!"
             exit
@@ -85,6 +105,5 @@ class TopBreweries::CLI
             end
             puts "That is not a valid choice. Please try again."
         end
-
     end
 end

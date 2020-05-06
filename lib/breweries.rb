@@ -5,6 +5,11 @@ class TopBreweries::Breweries
     @@all = []
 
     def initialize(brewery_hash)
+        # @state = :state
+        # @b_name = :b_name
+        # @b_links = :b_links
+        # @city = :city
+        # @description = :description
         self.send("state=", brewery_hash[:state])
         self.send("b_name=", brewery_hash[:b_name])
         self.send("b_links=", brewery_hash[:b_links])
@@ -14,7 +19,7 @@ class TopBreweries::Breweries
     end
 
     def self.create_from_collection(breweries_arr)
-        breweries_arr.each do |brewery_hash| #each brewery is a hash
+        breweries_arr.map do |brewery_hash| #each brewery is a hash
             TopBreweries::Breweries.new(brewery_hash)
         end
     end
