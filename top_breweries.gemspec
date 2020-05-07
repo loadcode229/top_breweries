@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.license = "MIT"
   s.executables << 'top-breweries'
 
-  s.add_development_dependency "bundler", "~> 1.17.2"
+  s.add_development_dependency "bundler", ">= 2.1.4"
   s.add_development_dependency "rake", "~> 12.3.3"
   s.add_development_dependency "rspec", ">= 0"
   s.add_development_dependency "nokogiri", ">= 0"

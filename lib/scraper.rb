@@ -14,13 +14,12 @@ class TopBreweries::Scraper
             city =  cityem ? cityem.text : find_city(description_unaltered)
             description = description_unaltered.split("\n").last
             
-            b_info = {:state => states[i],
-                     :b_links => b_links,
-                     :b_name => b_name,
-                     :city => city,
-                     :description => description}
+            {:state => states[i],
+            :b_links => b_links,
+            :b_name => b_name,
+            :city => city,
+            :description => description}
             #breweries << b_info
-            b_info
         end
         #breweries
         

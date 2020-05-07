@@ -13,6 +13,8 @@ class TopBreweries::CLI
         puts ""
     end
 
+    
+
     def start
         puts ""
         puts "What number breweries would you like to see? 1-10, 11-20, 21-30, 31-40, or 41-50?"
@@ -22,30 +24,28 @@ class TopBreweries::CLI
 
         puts ""
         puts "What brewery would you like more information on?"
-        choice_input = gets.strip.to_i
-        
-        brewery = TopBreweries::Breweries.find(choice_input.to_i)
-        until choice_input <= 50 && choice_input > 0
-            case choice_input
-            when choice_input.to_i[1..10]
-                display_brewery(brewery)[1..10]
-            when 11..20
-                display_brewery(brewery)
-            when 21..30
-                display_brewery(brewery)
-            when 31..40
-                display_brewery(brewery)
-            when 41..50
-                display_brewery(brewery)
-            else
-                puts "This input is invalid."
-                puts "What brewery would you like more information on?"
-                choice_input = gets.strip.to_i
-            end 
-        end
-        #brewery = TopBreweries::Breweries.find(choice_input.to_i)
+        choice_input = gets.strip
 
-        #display_brewery(brewery)
+        if choice_input.downcase == "exit"
+            puts "Bye!"
+            return
+        end
+
+        choice_input = choice_input.to_i
+
+        until valid?(choice_input, list_input)
+            puts "Please type in a number within the choices given."
+            puts "What brewery would you like more information on?"
+            choice_input = gets.strip
+            if choice_input.downcase == "exit"
+                puts "Bye!"
+                return
+            end
+            choice_input = choice_input.to_i
+        end
+ 
+        brewery = TopBreweries::Breweries.find(choice_input)
+        display_brewery(brewery)
         
         
         puts ""
@@ -87,9 +87,14 @@ class TopBreweries::CLI
         puts ""
         puts "---------- Breweries #{from_num+1} - #{from_num+10} ----------"
         puts ""
-        TopBreweries::Breweries.all[from_num+0,10].each.with_index(from_num+1) do |brewery, index|
+        TopBreweries::Breweries.all[from_num,10].each.with_index(from_num+1) do |brewery, index|
             puts "#{index}. #{brewery.b_name}"
         end
+    end
+
+    def valid?(input, first_index_of_range)
+        range = (first_index_of_range + 1)..(first_index_of_range + 10)
+        range.include?(input)
     end
 
     def choose_range
