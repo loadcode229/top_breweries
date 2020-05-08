@@ -2,7 +2,6 @@ class TopBreweries::Scraper
 
     def self.get_brewery_info
         html = Nokogiri::HTML(open("https://www.thrillist.com/drink/nation/the-best-craft-brewery-in-every-state-in-america/")) #opens url and reads all HTML
-        #breweries = []  #empty breweries array
         states = html.css('h2').map(&:text) #variable states gets all 'h2' selectors in 'html' and gets all text within.
         parsed_page = html.css("h2+p")  #parsed_page gets all within 'h2 and p' selectors
         #Zipper pattern is BAD however..
@@ -19,9 +18,8 @@ class TopBreweries::Scraper
             :b_name => b_name,
             :city => city,
             :description => description}
-            #breweries << b_info
+            
         end
-        #breweries
         
     end
 

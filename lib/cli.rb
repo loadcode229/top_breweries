@@ -13,8 +13,6 @@ class TopBreweries::CLI
         puts ""
     end
 
-    
-
     def start
         puts ""
         puts "What number breweries would you like to see? 1-10, 11-20, 21-30, 31-40, or 41-50?"
@@ -25,9 +23,9 @@ class TopBreweries::CLI
         puts ""
         puts "What brewery would you like more information on?"
         choice_input = gets.strip
-
+        
         if choice_input.downcase == "exit"
-            puts "Bye!"
+            puts "Thank you! Have an awesome day!"
             return
         end
 
@@ -38,7 +36,7 @@ class TopBreweries::CLI
             puts "What brewery would you like more information on?"
             choice_input = gets.strip
             if choice_input.downcase == "exit"
-                puts "Bye!"
+                puts "Thank you! Have an awesome day!"
                 return
             end
             choice_input = choice_input.to_i

@@ -5,16 +5,11 @@ class TopBreweries::Breweries
     @@all = []
 
     def initialize(brewery_hash)
-        # @state = :state
-        # @b_name = :b_name
-        # @b_links = :b_links
-        # @city = :city
-        # @description = :description
-        self.send("state=", brewery_hash[:state])
-        self.send("b_name=", brewery_hash[:b_name])
-        self.send("b_links=", brewery_hash[:b_links])
-        self.send("city=", brewery_hash[:city])
-        self.send("description=", brewery_hash[:description])
+        @state = brewery_hash[:state]
+        @b_name = brewery_hash[:b_name]
+        @b_links = brewery_hash[:b_links]
+        @city = brewery_hash[:city]
+        @description = brewery_hash[:description]
         @@all << self
     end
 
